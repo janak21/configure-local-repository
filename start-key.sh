@@ -1,4 +1,5 @@
 #!/bin/bash
+if [ $UID -eq 0 ]; then
 sudo cat > /etc/yum.repos.d/local.repo <<EOL
 [AppStream]
 name=My Local Repository
@@ -6,7 +7,7 @@ baseurl=/run/media/$USERNAME/RHEL-9-0-0-BaseOS-x86_64/AppStream
 enabled=1
 gpgcheck=0
 
-[BaseOS]
+[BaseOS]	
 name=My Local Repository
 baseurl=/run/media/$USERNAME/RHEL-9-0-0-BaseOS-x86_64/BaseOS
 enabled=1
@@ -18,3 +19,6 @@ yum repolist
 yum update repolist
 yum install -y ansible-core
 yum install -y podman
+else
+echo "You are not a root user! Please run this script with sudo privilege"
+fi
